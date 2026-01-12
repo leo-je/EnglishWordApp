@@ -14,7 +14,6 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
   withSpring,
-  runOnJS,
 } from 'react-native-reanimated';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -39,15 +38,11 @@ export function LearnScreen() {
   const unmasteredWords = words.filter(w => !w.mastered);
   const currentWord = unmasteredWords[currentIndex];
 
-  const cardScale = useSharedValue(1);
-  const rotateX = useSharedValue(0);
+  const rotateY = useSharedValue(0);
   const opacity = useSharedValue(1);
 
   const cardStyle = useAnimatedStyle(() => ({
-    transform: [
-      { scale: cardScale.value },
-      { rotateX: `${rotateX.value}deg` },
-    ],
+    transform: [{ rotateY: `${rotateY.value}deg` }],
     opacity: opacity.value,
   }));
 
@@ -72,15 +67,15 @@ export function LearnScreen() {
       incrementReviewCount(currentWord.id);
     }
     
-    const targetRotation = rotateX.value === 0 ? 180 : 0;
+    const isShowingAnswer = !showAnswer;
+    const targetRotation = isShowingAnswer ? 180 : 360;
     
-    rotateX.value = withSpring(targetRotation, {
+    rotateY.value = withSpring(targetRotation, {
       damping: 15,
     });
     
     setTimeout(() => {
-      setShowAnswer(!showAnswer);
-      rotateX.value = 0;
+      setShowAnswer(isShowingAnswer);
     }, 150);
   };
 
@@ -128,10 +123,11 @@ export function LearnScreen() {
       </View>
 
       <View style={styles.content}>
-        <Animated.View
-          style={[styles.cardContainer, cardStyle]}
-        >
-          <TouchableOpacity
+        <View style={styles.cardContainer}>
+          <Animated.View
+            style={cardStyle}
+          >
+            <TouchableOpacity
             onPressIn={handlePressIn}
             onPressOut={handlePressOut}
             onPress={handleFlip}
@@ -165,6 +161,7 @@ export function LearnScreen() {
             </LinearGradient>
           </TouchableOpacity>
         </Animated.View>
+        </View>
 
         {showAnswer && (
           <View style={styles.buttonsContainer}>
@@ -212,7 +209,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 20,
     paddingBottom: 20,
   },
   backText: {
@@ -233,6 +229,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     width: width - 40,
+    perspective: 1000,
   },
   card: {
     borderRadius: 20,
@@ -243,6 +240,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 16,
     elevation: 10,
+    backfaceVisibility: 'hidden',
   },
   cardContent: {
     flex: 1,
@@ -302,6 +300,11 @@ const styles = StyleSheet.create({
   actionButton: {
     borderRadius: 12,
     overflow: 'hidden',
+  },
+  nextButton: {
+    width: (width - 60) / 2,
+  },
+  masteredButton: {
     width: (width - 60) / 2,
   },
   buttonGradient: {
