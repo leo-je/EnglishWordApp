@@ -118,7 +118,7 @@ export function LearnScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: insets.top + 20 }]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.backText}>← 返回</Text>
         </TouchableOpacity>
