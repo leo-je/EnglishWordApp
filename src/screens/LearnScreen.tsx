@@ -212,8 +212,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: insets.top + 16,
-    paddingBottom: 16,
+    paddingTop: 20,
+    paddingBottom: 20,
   },
   backText: {
     fontSize: 16,
