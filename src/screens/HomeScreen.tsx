@@ -37,7 +37,11 @@ export function HomeScreen() {
         </View>
       </LinearGradient>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        style={styles.content} 
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.progressContainer}>
           <LinearGradient
             colors={['#4facfe', '#00f2fe']}
@@ -118,10 +122,12 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  scrollContent: {
     paddingHorizontal: 20,
+    paddingTop: 20,
   },
   progressContainer: {
-    marginTop: -30,
     marginBottom: 30,
   },
   startButton: {

@@ -18,6 +18,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStackParamList } from '../navigation/types';
 import { useWordManager } from '../hooks/useWordManager';
 import { Word } from '../types';
@@ -30,6 +31,7 @@ const { width } = Dimensions.get('window');
 export function LearnScreen() {
   const navigation = useNavigation<LearnScreenNavigationProp>();
   const route = useRoute<LearnScreenRouteProp>();
+  const insets = useSafeAreaInsets();
   const { words, markMastered, incrementReviewCount } = useWordManager();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -69,11 +71,16 @@ export function LearnScreen() {
     if (showAnswer) {
       incrementReviewCount(currentWord.id);
     }
-    rotateX.value = withSpring(rotateX.value === 0 ? 180 : 0, {
+    
+    const targetRotation = rotateX.value === 0 ? 180 : 0;
+    
+    rotateX.value = withSpring(targetRotation, {
       damping: 15,
     });
+    
     setTimeout(() => {
       setShowAnswer(!showAnswer);
+      rotateX.value = 0;
     }, 150);
   };
 
@@ -204,7 +211,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: insets.top + 16,
+    paddingBottom: 16,
   },
   backText: {
     fontSize: 16,

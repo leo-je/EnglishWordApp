@@ -11,6 +11,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStackParamList } from '../navigation/types';
 import { useWordManager } from '../hooks/useWordManager';
 import { Word } from '../types';
@@ -22,6 +23,7 @@ type WordListScreenRouteProp = RouteProp<RootStackParamList, 'WordList'>;
 export function WordListScreen() {
   const navigation = useNavigation<WordListScreenNavigationProp>();
   const route = useRoute<WordListScreenRouteProp>();
+  const insets = useSafeAreaInsets();
   const { category } = route.params;
   const { getWordsByCategory } = useWordManager();
   
@@ -53,7 +55,7 @@ export function WordListScreen() {
         colors={[categoryInfo?.color || '#667eea', '#764ba2']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        style={styles.header}
+        style={[styles.header, { paddingTop: insets.top + 20 }]}
       >
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Text style={styles.backText}>← 返回</Text>
@@ -79,7 +81,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   header: {
-    paddingTop: 20,
     paddingBottom: 32,
     paddingHorizontal: 20,
   },

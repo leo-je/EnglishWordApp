@@ -11,6 +11,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStackParamList } from '../navigation/types';
 import { useWordManager } from '../hooks/useWordManager';
 import { Word } from '../types';
@@ -19,6 +20,7 @@ type MasteredScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Mas
 
 export function MasteredScreen() {
   const navigation = useNavigation<MasteredScreenNavigationProp>();
+  const insets = useSafeAreaInsets();
   const { getMasteredWords } = useWordManager();
   
   const words = getMasteredWords();
@@ -47,7 +49,7 @@ export function MasteredScreen() {
         colors={['#f093fb', '#f5576c']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        style={styles.header}
+        style={[styles.header, { paddingTop: insets.top + 20 }]}
       >
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Text style={styles.backText}>← 返回</Text>
@@ -80,7 +82,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   header: {
-    paddingTop: 20,
     paddingBottom: 32,
     paddingHorizontal: 20,
   },

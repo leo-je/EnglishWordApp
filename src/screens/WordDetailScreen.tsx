@@ -16,6 +16,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStackParamList } from '../navigation/types';
 import { useWordManager } from '../hooks/useWordManager';
 import { Word } from '../types';
@@ -26,6 +27,7 @@ type WordDetailScreenRouteProp = RouteProp<RootStackParamList, 'WordDetail'>;
 export function WordDetailScreen() {
   const navigation = useNavigation<WordDetailScreenNavigationProp>();
   const route = useRoute<WordDetailScreenRouteProp>();
+  const insets = useSafeAreaInsets();
   const { wordId } = route.params;
   const { words, markMastered } = useWordManager();
   
@@ -65,7 +67,7 @@ export function WordDetailScreen() {
         colors={['#667eea', '#764ba2']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        style={styles.header}
+        style={[styles.header, { paddingTop: insets.top + 20 }]}
       >
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Text style={styles.backText}>← 返回</Text>
@@ -140,7 +142,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   header: {
-    paddingTop: 20,
     paddingBottom: 32,
     paddingHorizontal: 20,
   },
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 16,
     padding: 24,
-    marginTop: -30,
+    marginTop: 10,
     marginBottom: 24,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
