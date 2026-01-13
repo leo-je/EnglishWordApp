@@ -4,4 +4,5 @@ export type RootStackParamList = {
   WordList: { category: string };
   WordDetail: { wordId: string };
   Mastered: undefined;
+  Import: undefined;
 };

@@ -69,6 +69,7 @@ export function useWordManager() {
 
   return {
     words,
+    setWords,
     loading,
     markMastered,
     incrementReviewCount,

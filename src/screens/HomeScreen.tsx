@@ -19,8 +19,18 @@ type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const { words, getMasteredWords } = useWordManager();
-  const masteredCount = getMasteredWords().length;
+  const { words, loading } = useWordManager();
+  const masteredCount = words.filter(w => w.mastered).length;
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>加载中...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -92,6 +102,23 @@ export function HomeScreen() {
             </View>
           </LinearGradient>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.importCard}
+          onPress={() => navigation.navigate('Import')}
+        >
+          <LinearGradient
+            colors={['#43e97b', '#38f9d7']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.importGradient}
+          >
+            <View style={styles.buttonContent}>
+              <Text style={styles.importTitle}>导入数据</Text>
+              <Text style={styles.importSubtext}>支持多种格式</Text>
+            </View>
+          </LinearGradient>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -101,6 +128,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+  },
+  loadingText: {
+    fontSize: 18,
+    color: '#666',
   },
   header: {
     paddingTop: 20,
@@ -188,7 +225,7 @@ const styles = StyleSheet.create({
   },
   masteredCard: {
     borderRadius: 16,
-    marginBottom: 40,
+    marginBottom: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
@@ -199,12 +236,35 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 24,
   },
+  importCard: {
+    borderRadius: 16,
+    marginBottom: 40,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  importGradient: {
+    borderRadius: 16,
+    padding: 24,
+  },
   masteredTitle: {
     fontSize: 20,
     fontWeight: '700',
     color: '#fff',
   },
   masteredCount: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    marginTop: 4,
+  },
+  importTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#fff',
+  },
+  importSubtext: {
     fontSize: 14,
     color: 'rgba(255, 255, 255, 0.8)',
     marginTop: 4,

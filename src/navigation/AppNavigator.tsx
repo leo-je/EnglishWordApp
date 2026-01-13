@@ -7,6 +7,7 @@ import { LearnScreen } from '../screens/LearnScreen';
 import { WordListScreen } from '../screens/WordListScreen';
 import { WordDetailScreen } from '../screens/WordDetailScreen';
 import { MasteredScreen } from '../screens/MasteredScreen';
+import { ImportScreen } from '../screens/ImportScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -24,6 +25,7 @@ export function AppNavigator() {
         <Stack.Screen name="WordList" component={WordListScreen} />
         <Stack.Screen name="WordDetail" component={WordDetailScreen} />
         <Stack.Screen name="Mastered" component={MasteredScreen} />
+        <Stack.Screen name="Import" component={ImportScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -9,6 +9,7 @@
 - 📚 **分类学习** - 按照不同分类组织单词
 - ✨ **精美界面** - 现代化的渐变色设计
 - 💾 **本地存储** - 使用 AsyncStorage 保存学习进度
+- 📥 **多种导入方式** - 支持JSON、API、Excel、云存储等多种数据导入方式
 
 ## 技术栈
 
@@ -25,6 +26,111 @@
 cd EnglishWordApp
 npm install
 ```
+
+## 数据导入功能
+
+### 支持的导入方式
+
+#### 1. 本地JSON文件导入 📁
+
+**JSON文件格式示例**：
+
+```json
+{
+  "version": "1.0",
+  "categories": [
+    {
+      "id": "business",
+      "name": "商务英语",
+      "color": "#FF6B6B"
+    }
+  ],
+  "words": [
+    {
+      "id": "101",
+      "word": "negotiate",
+      "pronunciation": "/nɪˈɡoʊʃieɪt/",
+      "meaning": "谈判，协商",
+      "example": "We need to negotiate a better price.",
+      "category": "business",
+      "mastered": false,
+      "reviewCount": 0
+    }
+  ]
+}
+```
+
+**使用步骤**：
+1. 准备符合格式的 JSON 文件
+2. 在首页点击"导入数据"
+3. 选择"本地JSON文件"
+4. 选择要导入的JSON文件
+
+#### 2. 在线API导入 🌐
+
+**API格式要求**：
+- 返回JSON格式数据
+- 数据结构同上
+- 建议添加版本控制和数据签名
+
+**使用步骤**：
+1. 准备在线API接口
+2. 在首页点击"导入数据"
+3. 选择"在线API"
+4. 输入API地址并导入
+
+**示例API**：
+```javascript
+// API返回格式
+{
+  "version": "1.0",
+  "categories": [...],
+  "words": [...]
+}
+```
+
+#### 3. Excel/CSV文件导入 📊
+
+**支持格式**：
+- `.xlsx` - Excel文件
+- `.xls` - 旧版Excel文件
+- `.csv` - 逗号分隔值文件
+
+**Excel表格格式**：
+
+| word | pronunciation | meaning | example | category |
+|------|---------------|---------|---------|----------|
+| hello | /həˈloʊ/ | 你好 | Hello, how are you? | daily |
+
+**使用步骤**：
+1. 准备符合格式的Excel文件
+2. 在首页点击"导入数据"
+3. 选择"Excel文件"
+4. 选择要导入的Excel文件
+
+#### 4. 云存储同步 ☁️
+
+**支持的云存储**：
+- Firebase
+- AWS S3
+- 阿里云OSS
+- 腾讯云COS
+- 自建云存储
+
+**使用步骤**：
+1. 配置云存储服务
+2. 上传数据文件到云存储
+3. 在首页点击"导入数据"
+4. 选择"云存储同步"
+5. 输入云存储URL并导入
+
+### 导入功能特点
+
+- ✅ **批量导入** - 一次可导入数百个单词
+- ✅ **重复检测** - 自动检测并处理重复单词
+- ✅ **格式验证** - 导入前验证数据格式
+- ✅ **错误提示** - 详细的错误提示和修复建议
+- ✅ **多次叠加** - 可多次导入不同来源的数据
 
 ## 安卓真机调试
 
@@ -115,7 +221,9 @@ EnglishWordApp/
 │   ├── hooks/            # 自定义 Hooks
 │   ├── navigation/       # 导航配置
 │   ├── screens/          # 页面组件
-│   └── types/            # TypeScript 类型定义
+│   ├── types/            # TypeScript 类型定义
+│   └── utils/            # 工具函数（含导入功能）
+├── data-template.json    # 数据导入模板
 ├── App.tsx               # 应用入口
 └── package.json
 ```
@@ -142,3 +250,15 @@ EnglishWordApp/
 ### 自定义样式
 
 所有样式都在各个 Screen 文件的 `StyleSheet` 中定义，可以根据需要调整颜色和布局。
+
+### 扩展导入功能
+
+如需添加新的导入方式：
+
+1. 在 `src/utils/DataImporter.ts` 中添加新的导入方法
+2. 在 `src/screens/ImportScreen.tsx` 中添加对应的UI选项
+3. 添加必要的数据验证和错误处理
+
+## 数据模板
+
+参考项目根目录下的 `data-template.json` 文件，了解正确的数据格式。

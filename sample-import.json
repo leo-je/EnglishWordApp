@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "categories": [
+    {
+      "id": "business",
+      "name": "商务英语",
+      "color": "#FF6B6B"
+    },
+    {
+      "id": "technology",
+      "name": "科技",
+      "color": "#4ECDC4"
+    }
+  ],
+  "words": [
+    {
+      "id": "101",
+      "word": "negotiate",
+      "pronunciation": "/nɪˈɡoʊʃieɪt/",
+      "meaning": "谈判，协商",
+      "example": "We need to negotiate a better price.",
+      "category": "business",
+      "mastered": false,
+      "reviewCount": 0
+    },
+    {
+      "id": "102",
+      "word": "algorithm",
+      "pronunciation": "/ˈælɡərɪðəm/",
+      "meaning": "算法",
+      "example": "The algorithm processes data efficiently.",
+      "category": "technology",
+      "mastered": false,
+      "reviewCount": 0
+    },
+    {
+      "id": "103",
+      "word": "innovative",
+      "pronunciation": "/ˈɪnəveɪtɪv/",
+      "meaning": "创新的",
+      "example": "The company is known for its innovative products.",
+      "category": "technology",
+      "mastered": false,
+      "reviewCount": 0
+    },
+    {
+      "id": "104",
+      "word": "strategic",
+      "pronunciation": "/strəˈtiːdʒɪk/",
+      "meaning": "战略性的",
+      "example": "We need a strategic plan for growth.",
+      "category": "business",
+      "mastered": false,
+      "reviewCount": 0
+    }
+  ]
+}
