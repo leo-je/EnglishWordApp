@@ -39,23 +39,27 @@ export function LearnScreen() {
   const currentWord = unmasteredWords[currentIndex];
 
   const rotateY = useSharedValue(0);
+  const scaleValue = useSharedValue(1);
   const opacity = useSharedValue(1);
 
   const cardStyle = useAnimatedStyle(() => ({
-    transform: [{ rotateY: `${rotateY.value}deg` }],
+    transform: [
+      { rotateY: `${rotateY.value}deg` },
+      { scaleX: scaleValue.value },
+    ],
     opacity: opacity.value,
   }));
 
   const handleNextWord = () => {
     if (currentIndex < unmasteredWords.length - 1) {
       opacity.value = 0;
-      cardScale.value = 0.8;
       
       setTimeout(() => {
         setCurrentIndex(prev => prev + 1);
         setShowAnswer(false);
+        rotateY.value = 0;
+        scaleValue.value = 1;
         opacity.value = withTiming(1);
-        cardScale.value = withSpring(1);
       }, 200);
     } else {
       navigation.goBack();
@@ -68,10 +72,15 @@ export function LearnScreen() {
     }
     
     const isShowingAnswer = !showAnswer;
-    const targetRotation = isShowingAnswer ? 180 : 360;
+    const currentRotation = rotateY.value;
+    const nextRotation = currentRotation + 180;
     
-    rotateY.value = withSpring(targetRotation, {
-      damping: 15,
+    rotateY.value = withTiming(nextRotation, {
+      duration: 300,
+    });
+    
+    scaleValue.value = withTiming(scaleValue.value * -1, {
+      duration: 300,
     });
     
     setTimeout(() => {
@@ -85,11 +94,11 @@ export function LearnScreen() {
   };
 
   const handlePressIn = () => {
-    cardScale.value = withSpring(0.97);
+    
   };
 
   const handlePressOut = () => {
-    cardScale.value = withSpring(1);
+    
   };
 
   if (!currentWord) {
@@ -125,14 +134,14 @@ export function LearnScreen() {
       <View style={styles.content}>
         <View style={styles.cardContainer}>
           <Animated.View
-            style={cardStyle}
+            style={[cardStyle, { transform: [{ perspective: 1000 }] }]}
           >
             <TouchableOpacity
-            onPressIn={handlePressIn}
-            onPressOut={handlePressOut}
-            onPress={handleFlip}
-            activeOpacity={0.9}
-          >
+              onPressIn={handlePressIn}
+              onPressOut={handlePressOut}
+              onPress={handleFlip}
+              activeOpacity={0.9}
+            >
             <LinearGradient
               colors={showAnswer ? ['#f093fb', '#f5576c'] : ['#667eea', '#764ba2']}
               start={{ x: 0, y: 0 }}
@@ -229,7 +238,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     width: width - 40,
-    perspective: 1000,
+    marginTop: -60,
   },
   card: {
     borderRadius: 20,
