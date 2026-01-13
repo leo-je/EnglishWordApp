@@ -148,7 +148,7 @@ export function ImportScreen() {
     await processImportedData(demoData, 'demo');
   };
 
-  const processImportedData = async (data: any, source: string) => {
+  const processImportedData = async (data: any, _source: string) => {
     try {
       if (!data.categories || !data.words) {
         throw new Error('数据格式错误：缺少 categories 或 words 字段');
